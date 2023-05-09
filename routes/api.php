@@ -29,3 +29,15 @@ Route::group([
     Route::post('profile', 'AuthController@profile');
     Route::post('refresh', 'AuthController@refresh');
 });
+
+
+Route::group([
+    'middleware' => 'api',
+    'namespace' => 'App\Http\Controllers',
+], function ($router){
+    Route::post('todos', 'TodoController');
+});
+
+
+
+
