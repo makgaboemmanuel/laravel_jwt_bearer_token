@@ -35,7 +35,7 @@ Route::group([
     'middleware' => 'api',
     'namespace' => 'App\Http\Controllers',
 ], function ($router){
-    Route::post('todos', 'TodoController');
+    Route::post('todos', 'TodoController@todos');
 });
 
 

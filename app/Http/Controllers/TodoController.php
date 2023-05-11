@@ -6,5 +6,12 @@ use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
-    //
+    public function __construct()
+    {
+
+    }
+
+    public function todos(){
+
+    }
 }

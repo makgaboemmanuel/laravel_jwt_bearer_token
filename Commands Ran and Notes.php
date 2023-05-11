@@ -21,6 +21,7 @@ jwt-auth secret [OcwTv9OjccjD5OfvFmorMQenH5mJU95vE7KxFxPdOSqavcuKbZ99qXB9CgPUdo4
 
 # php artisan make:controller TodoController
 
+# please run the command to create a model: php artisan make:model Todo -mcr
 
 
 
