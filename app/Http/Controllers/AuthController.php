@@ -10,91 +10,110 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    /* user added code */
-
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
 
-    public function login(Request $request){
-        $validator = Validator::make( $request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
+    }//end __construct()
 
-        if( $validator->fails()){
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email'    => 'required|email',
+                'password' => 'required|string|min:6',
+            ]
+        );
+
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        $token_validity = 24 * 60;
+        $token_validity = (24 * 60);
 
         $this->guard()->factory()->setTTL($token_validity);
 
-        if( !$token = $this->guard()->attempt( $validator->validated()) ){
+        if (!$token = $this->guard()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
 
-    }
+    }//end login()
 
-    public function respondWithToken($token){
-        return response()->json([
-            'token' =>$token,
-            'token_type' => 'bearer',
-            'token_validity' => $this->guard()->factory()->getTTL() * 60
-        ]);
-    }
 
-    public function register(Request $request){
-        $validator  = Validator::make(
+    public function register(Request $request)
+    {
+        $validator = Validator::make(
             $request->all(),
             [
-                'name' => 'require|string|between:2,50',
-                'email' => 'require|email|unique:users',
-                'password' => 'require|confirmed|min:6'
+                'name'     => 'required|string|between:2,100',
+                'email'    => 'required|email|unique:users',
+                'password' => 'required|confirmed|min:6',
             ]
         );
 
-        if( $validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
-                [$validator->errors(), 422]
+                [$validator->errors()],
+                422
             );
         }
 
-        $user = User::create(array_merge(
-            $validator->validated(),
-            [ 'password' =>bcrypt( $request->password)]
-        ));
+        $user = User::create(
+            array_merge(
+                $validator->validated(),
+                ['password' => bcrypt($request->password)]
+            )
+        );
 
-        return response()->json([
-            'message' => 'User created successfully',
-            'user' => $user
-        ]);
+        return response()->json(['message' => 'User created successfully', 'user' => $user]);
 
-    }
+    }//end register()
 
-    public function logout(Request $request){
+
+    public function logout()
+    {
         $this->guard()->logout();
 
-        return response()->json([
-            'message' => 'User logged out successfully'
-        ]);
-    }
+        return response()->json(['message' => 'User logged out successfully']);
 
-    public function profile(Request $request){
+    }//end logout()
+
+
+    public function profile()
+    {
+        return response()->json($this->guard()->user());
+
+    }//end profile()
+
+
+    public function refresh()
+    {
+        return $this->respondWithToken($this->guard()->refresh());
+
+    }//end refresh()
+
+
+    protected function respondWithToken($token)
+    {
         return response()->json(
-            $this->guard->user()
+            [
+                'token'          => $token,
+                'token_type'     => 'bearer',
+                'token_validity' => ($this->guard()->factory()->getTTL() * 60),
+            ]
         );
-    }
 
-    public function refresh(Request $request){
-        return $this->respondWithToken( $this->guard()->refresh());
-    }
+    }//end respondWithToken()
 
-    public function guard(Request $request){
+
+    protected function guard()
+    {
         return Auth::guard();
-    }
+
+    }//end guard()
 
 }
