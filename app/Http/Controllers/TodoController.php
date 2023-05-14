@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
@@ -21,7 +22,7 @@ class TodoController extends Controller
             'title', 'body', 'completed', 'created_by'
         ]);
 
-        return  response()->json( $todos->toArray());
+    return  response()->json( $todos->toArray() );
     }
 
     public function store(Request $request){
@@ -110,7 +111,7 @@ class TodoController extends Controller
         return Auth::guard();
     }
 
-    public function todos(){
+    /* public function todos(){
 
-    }
+    } */
 }

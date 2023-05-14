@@ -374,7 +374,7 @@ eveniet. Sunt voluptate sunt aperiam.",
     endpoint: http://127.0.0.1:8000/api/auth/refresh, request type: POST
     please provide the bearer token as well
 
-    response:
+show  : GET, please provide the ID  response:
 
         {
             "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvcmVmcmVzaCIsImlhdCI6MTY4NDAwMDc0NywiZXhwIjoxNjg0MDA2ODc5LCJuYmYiOjE2ODQwMDMyNzksImp0aSI6Im00bEpJZDZRVGdjbVF3SzAiLCJzdWIiOiIxMCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.APPcT2iiIw9d9UW7IylPaS2cR3FxHzTOr-BVdsXaNls",
@@ -386,6 +386,11 @@ eveniet. Sunt voluptate sunt aperiam.",
     endpoint: http://127.0.0.1:8000/api/auth/logout, request type: POST
     please provide the newly created bearer token from refresh method
 
+    endpoint: http://127.0.0.1:8000/api/todos : this endpoint has all request types named accordinly by defualt as per below:
+
+    index : GET request
+    store : POST request
+    show  : GET, please provide the ID
  */
 
 
